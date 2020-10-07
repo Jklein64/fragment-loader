@@ -3,10 +3,10 @@
   "version": "1.0.1",
   "description": "A webpack loader that can load html files as document fragments.",
   "license": "ISC",
-  "repository": "null/fragment-loader",
+  "repository": "Jklein64/fragment-loader",
   "author": "Jklein64",
-  "homepage": "https://github.com/null/fragment-loader",
-  "bugs": "https://github.com/null/fragment-loader/issues",
+  "homepage": "https://github.com/Jklein64/fragment-loader",
+  "bugs": "https://github.com/Jklein64/fragment-loader/issues",
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/webpack"

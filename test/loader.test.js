@@ -1,28 +1,30 @@
+import { JSDOM } from 'jsdom';
+
 import compiler from './helpers/compiler';
 
+const jsdom = new JSDOM('<div>hi</div>');
+const { window } = jsdom;
+
+global.window = window;
+global.document = window.document;
+
 test('Properly loads and inlines HTML file as string', async () => {
-  const stats = await compiler('example.html');
+  const stats = await compiler('example.html', { esModule: false });
   const output = stats.toJson().modules[0].source;
 
-  expect(
-    output
-      .split('\n')
-      .map((s) => s.trim())
-      .join('')
-  ).toBe(
-    `
-    export default (function parseTemplate() {
-      const template = document.createElement("template");
-      template.innerHTML = ${JSON.stringify(
-        Buffer.from('<div>hi</div>\n').toJSON()
-      )};
-      return template;
-    })()
-`
-      .split('\n')
-      .map((s) => s.trim())
-      .join('')
+  expect(output).toMatch(
+    new RegExp(String.raw`template.innerHTML = \"<div>hi</div>\"`)
   );
+});
+
+test('Respects esModule preferences', async () => {
+  const esFalse = (await compiler('example.html', { esModule: false })).toJson()
+    .modules[0].source;
+  const esTrue = (await compiler('example.html', { esModule: true })).toJson()
+    .modules[0].source;
+
+  expect(esFalse).toMatch('module.exports');
+  expect(esTrue).toMatch('export default');
 });
 // import {
 //   compile,

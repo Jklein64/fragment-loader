@@ -15,10 +15,12 @@ export default (fixture, options = {}) => {
       rules: [
         {
           test: /\.html$/,
-          use: {
-            loader: path.resolve(__dirname, '../../src/index.js'),
-            options,
-          },
+          use: [
+            {
+              loader: path.resolve(__dirname, '../../dist/index.js'),
+              options,
+            },
+          ],
         },
       ],
     },

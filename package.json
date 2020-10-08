@@ -1,6 +1,6 @@
 {
   "name": "fragment-loader",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A webpack loader that can load html files as document fragments.",
   "license": "ISC",
   "repository": "Jklein64/fragment-loader",

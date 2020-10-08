@@ -118,7 +118,7 @@ module.exports = {
 import fragment from './file.fragment.html';
 
 // ... do whatever with this DocumentFragment,
-// such asdocument.body.appendChild(fragment)
+// such as document.body.appendChild(fragment)
 ```
 
 ## Contributing

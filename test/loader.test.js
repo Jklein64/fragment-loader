@@ -13,7 +13,7 @@ test('Properly loads and inlines HTML file as string', async () => {
   const output = stats.toJson().modules[0].source;
 
   expect(output).toMatch(
-    new RegExp(String.raw`template.innerHTML = \"<div>hi</div>\"`)
+    new RegExp(String.raw`template.innerHTML = \"<div>hi</div>`)
   );
 });
 

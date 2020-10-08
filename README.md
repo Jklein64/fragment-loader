@@ -14,8 +14,6 @@
 
 # fragment-loader
 
-
-
 ## Getting Started
 
 To begin, you'll need to install `fragment-loader`:
@@ -28,14 +26,10 @@ $ npm install fragment-loader --save-dev
 
 Then add the loader to your `webpack` config. For example:
 
-<!-- isPlugin ? use(this) : delete(isLoader) -->
-
-Then add the plugin to your `webpack` config. For example:
-
-**file.ext**
+**file.html**
 
 ```js
-import file from 'file.ext';
+import file from 'file.html';
 ```
 
 <!-- isLoader ? use(this) : delete(isPlugin) -->
@@ -47,11 +41,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /.ext$/,
+        test: /.html$/,
         use: [
           {
             loader: `fragment-loader`,
-            options: { ...options },
+            options: {
+              ...options,
+            },
           },
         ],
       },
@@ -60,28 +56,16 @@ module.exports = {
 };
 ```
 
-<!-- isPlugin ? use(this) : delete(isLoader) -->
-
-**webpack.config.js**
-
-```js
-module.exports = {
-  plugins: [
-    new `Fragment`Plugin(options)
-  ]
-}
-```
-
 And run `webpack` via your preferred method.
 
 ## Options
 
-### `[option]`
+### `esModule`
 
-Type: `[type|other-type]`
-Default: `[type|null]`
+Type: `boolean`
+Default: `false`
 
-[ option description ]
+Use ES modules syntax
 
 <!-- isLoader ? use(this) : delete(isPlugin) -->
 
@@ -94,7 +78,7 @@ module.exports = {
       {
         loader: `fragment-loader`,
         options: {
-          [option]: '',
+          esModule: false,
         },
       },
     ],
@@ -102,40 +86,39 @@ module.exports = {
 };
 ```
 
-<!-- isPlugin ? use(this) : delete(isLoader) -->
+## Examples
+
+To use `fragment-loader` with `html-loader`, you will need another loader to evaluate the return value of `html-loader`, since it returns a javscript module and `fragment-loader` expects only a string. In this example, `"execute-loader"` is an installed loader that runs `eval()` on its content. You can make this loader yourself or find one that does this.
 
 **webpack.config.js**
 
 ```js
+const path = require('path');
 module.exports = {
-  plugins: [
-    new `Fragment`Plugin({
-      [option]: ''
-    })
-  ]
+  module: {
+    rules: [
+      {
+        test: /\.fragment\.html$/,
+        use: ['fragment-loader', 'execute-loader', 'html-loader'],
+      },
+    ],
+  },
 };
 ```
 
-## Examples
+**src/file.fragment.html**
 
-[ example outline text ]
-
-**webpack.config.js**
-
-```js
-// Example setup here..
+```html
+<h1>Hello from another file!</h1>
 ```
 
-**file.ext**
+**src/index.js**
 
 ```js
-// Source code here...
-```
+import fragment from './file.fragment.html';
 
-**bundle.js**
-
-```js
-// Bundle code here...
+// ... do whatever with this DocumentFragment,
+// such asdocument.body.appendChild(fragment)
 ```
 
 ## Contributing

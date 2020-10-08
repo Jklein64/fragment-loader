@@ -88,6 +88,8 @@ module.exports = {
 
 ## Examples
 
+### Use With `html-loader`
+
 To use `fragment-loader` with `html-loader`, you will need another loader to evaluate the return value of `html-loader`, since it returns a javscript module and `fragment-loader` expects only a string. In this example, `"execute-loader"` is an installed loader that runs `eval()` on its content. You can make this loader yourself or find one that does this.
 
 **webpack.config.js**
@@ -119,6 +121,19 @@ import fragment from './file.fragment.html';
 
 // ... do whatever with this DocumentFragment,
 // such as document.body.appendChild(fragment)
+```
+
+### Add Typescript Typings
+
+To add Typescript typings to `*.html` modules imported with `fragment-loader`, create `@types/html.d.ts` like below:
+
+**@types/html.d.ts**
+
+```js
+module '*.html' {
+  const value: DocumentFragment;
+  export default value;
+}
 ```
 
 ## Contributing

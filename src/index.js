@@ -11,13 +11,11 @@ const schema = {
   additionalProperties: false,
 };
 
-export const raw = true;
-
-export default function loader(source) {
+export default function loader(content, map, meta) {
   const options = getOptions(this) || {};
   const esModule = options.esModule || true;
 
-  const str = JSON.stringify(source)
+  const str = JSON.stringify(content.toString('utf-8'))
     .replace(/\u2028/g, '\\u2028')
     .replace(/\u2029/g, '\\u2029');
 
@@ -29,9 +27,9 @@ export default function loader(source) {
     } (function parseTemplate() {
       const template = document.createElement("template");
       template.innerHTML = ${str};
-      return template;
+      return template.content;
     })()
   `;
 
-  return `${newSource}`;
+  this.callback(null, newSource, map, meta);
 }
